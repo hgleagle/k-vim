@@ -124,13 +124,17 @@ Plug 'airblade/vim-gitgutter'
 
 " gundo
 " edit history, 可以查看回到某个历史状态
-Plug 'sjl/gundo.vim'
+" require python 2.4+, not work right now
+" Plug 'sjl/gundo.vim'
 
 " view
 " airline
 " 状态栏增强展示
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" vertical indentline
+" 垂直线对齐
+Plug 'Yggdroot/indentLine'
 " rainbow_parentheses
 " 括号显示增强
 Plug 'kien/rainbow_parentheses.vim'
@@ -149,6 +153,8 @@ Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 " tagbar
 Plug 'majutsushi/tagbar'
+" buffer explore
+" Plug 'fholgado/minibufexpl.vim'
 
 " text object
 " 支持自定义文本对象
@@ -191,11 +197,18 @@ if count(g:bundle_groups, 'python')
     Plug 'hynek/vim-python-pep8-indent'
     Plug 'Glench/Vim-Jinja2-Syntax'
 
+    " alternated by vim-yapf
+    " Plug 'tell-k/vim-autopep8'
+    " autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
+    " let g:autopep8_ignore="E501,W293"
+    " let g:autopep8_max_line_length=79
+
     " isort  https://github.com/timothycrosley/isort#readme + https://github.com/fisadev/vim-isort#installation
     " pip install isort
     Plug 'fisadev/vim-isort'
     " Shift-V 上下选中, ctrl + i 规范化
     let g:vim_isort_map = '<C-i>'
+    let g:vim_isort_python_version = 'python3'
 endif
 
 if count(g:bundle_groups, 'php')
@@ -467,6 +480,9 @@ endif
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
     let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
     let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+	let g:snips_author = "heguilong"
+	let g:snips_email = "hgleagle@gmail.com"
+	let g:snips_github = "https://github.com/hgleagle"
     " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
     " 进入对应filetype的snippets进行编辑
     map <leader>us :UltiSnipsEdit<CR>
@@ -661,7 +677,7 @@ endif
 " }}}
 
 " gundo {{{
-    noremap <leader>h :GundoToggle<CR>
+    " noremap <leader>h :GundoToggle<CR>
 " }}}
 
 " ################### 显示增强 ###################
@@ -677,7 +693,8 @@ endif
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
     " 是否打开tabline
-    " let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#enabled = 1
+	let g:airline_theme="deus"
 " }}}
 
 
@@ -711,6 +728,9 @@ endif
     au Syntax * RainbowParenthesesLoadBraces
 " }}}
 
+" indentline {{{
+	let g:indentLine_enabled = 1
+" }}}
 
 " ################### 显示增强-主题 ###################"
 
@@ -731,13 +751,18 @@ endif
 
 " nerdtree nerdtreetabs {{{
     " map <leader>n :NERDTreeToggle<CR>
-    let NERDTreeHighlightCursorline=1
+    " 打开当前文件所在目录
+	nmap <leader>m :NERDTreeFind<CR>
+    "默认显示bookmark
+	let NERDTreeShowBookmarks=1
+	let NERDTreeHighlightCursorline=1 "高亮
     let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
     " s/v 分屏打开文件
     let g:NERDTreeMapOpenSplit = 's'
     let g:NERDTreeMapOpenVSplit = 'v'
+    " let g:NERDTreeWinSize=60
 
 
     " nerdtreetabs
@@ -854,6 +879,7 @@ endif
 
 " markdown {{{
     let g:vim_markdown_folding_disabled=1
+    let g:vim_markdown_frontmatter=1
 " }}}
 
 
